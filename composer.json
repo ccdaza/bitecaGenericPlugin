@@ -1,5 +1,5 @@
 {
-    "name": "biteca/bitecaGenericPlugin",
+    "name": "biteca/biteca-generic-plugin",
     "type": "library",
     "description": "Fasilita el desarrollo de plugins PKP ojs",
     "keywords": ["ojs","pkp","biteca","hepluginre"],
