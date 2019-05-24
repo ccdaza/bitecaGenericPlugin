@@ -1,8 +1,10 @@
 <?php
+namespace BitecaGenericPlugin;
+
 import('lib.pkp.classes.plugins.GenericPlugin');
-require_once("vendor/autoload.php");
 
 use GuzzleHttp\Client;
+
 class BitecaPlugin extends GenericPlugin {
 
     public $context;
