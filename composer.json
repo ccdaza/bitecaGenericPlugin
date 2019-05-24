@@ -1,0 +1,19 @@
+{
+    "name": "biteca/bitecaGenericPlugin",
+    "type": "library",
+    "description": "Fasilita el desarrollo de plugins PKP ojs",
+    "keywords": ["ojs","pkp","biteca","hepluginre"],
+    "homepage": "https://biteca.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "biteca",
+            "email": "editorial@biteca.com",
+            "homepage": "http://biteca.com",
+            "role": "Developer"
+        }
+    ],
+	 	"require": {
+    	"php": ">=7.0.0"
+  	},
+}
