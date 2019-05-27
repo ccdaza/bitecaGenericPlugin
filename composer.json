@@ -17,14 +17,12 @@
     	"php": "^7.0",
 			"guzzlehttp/guzzle" : "6.3.3"
   	},
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
-		"autoload": {
+    "autoload": {
+        "psr-0": {
+            "BitecaGenericPlugin\\": "src"
+        },
         "psr-4" : {
-            "BitecaGenericPlugin\\" : "src/"
+            "BitecaGenericPlugin\\": "src"
         }
     }
 }
