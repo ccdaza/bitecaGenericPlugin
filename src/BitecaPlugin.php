@@ -38,7 +38,7 @@ class BitecaPlugin extends \GenericPlugin {
             $this->getToken();
             if($this->token != ''){
                 foreach ($this->_hooks as $hook){
-                    HookRegistry::register($hook["hook"], $hook["method"]);
+                    \HookRegistry::register($hook["hook"], $hook["method"]);
                 }
             }
         }
