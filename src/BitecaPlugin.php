@@ -5,7 +5,7 @@ import('lib.pkp.classes.plugins.GenericPlugin');
 
 use GuzzleHttp\Client;
 
-class BitecaPlugin extends GenericPlugin {
+class BitecaPlugin extends \GenericPlugin {
 
     public $context;
     public $request;
@@ -23,10 +23,6 @@ class BitecaPlugin extends GenericPlugin {
         $this->_hooks = $hooks;
         $this->tplRoute = $tplRoute;
     }
-	
-	public function vamos(){
-		return "vamos";
-	}
 
     public function getDisplayName(){
         return __('plugins.generic.'.$this->getName().'.displayName');
@@ -131,8 +127,7 @@ class BitecaPlugin extends GenericPlugin {
                 $templateMgr = TemplateManager::getManager($request);
                 $templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
 
-                $this->import('biteca/BitecaPluginForm');
-                $form = new inc($this, $context->getId());
+                $form = new BitecaPluginForm($this, $context->getId());
 
                 if ($request->getUserVar('save')) {
                     $form->readInputData();
