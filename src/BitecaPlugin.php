@@ -103,7 +103,7 @@ class BitecaPlugin extends \GenericPlugin {
         $router = $request->getRouter();
         import('lib.pkp.classes.linkAction.request.AjaxModal');
         return array_merge($this->getEnabled() ? array(
-            new LinkAction(
+            new \LinkAction(
                 'settings',
                 new AjaxModal(
                     $router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
