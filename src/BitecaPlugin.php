@@ -123,7 +123,7 @@ class BitecaPlugin extends \GenericPlugin {
 
                 $context = $request->getContext();
 
-                AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON,  LOCALE_COMPONENT_PKP_MANAGER);
+                \AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON,  LOCALE_COMPONENT_PKP_MANAGER);
                 $templateMgr = TemplateManager::getManager($request);
                 $templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
 
@@ -133,13 +133,13 @@ class BitecaPlugin extends \GenericPlugin {
                     $form->readInputData();
                     if ($form->validate()) {
                         $form->execute();
-                        return new JSONMessage(true);
+                        return new \JSONMessage(true);
                     }
                 } else {
                     $form->initData();
                 }
 
-                return new JSONMessage(true, $form->fetch($request));
+                return new \JSONMessage(true, $form->fetch($request));
         }
         return parent::manage($args, $request);
     }
