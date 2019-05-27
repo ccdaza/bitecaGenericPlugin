@@ -1,11 +1,9 @@
 <?php
 namespace BitecaGenericPlugin;
 
-import('lib.pkp.classes.plugins.GenericPlugin');
-
 use GuzzleHttp\Client;
 
-class BitecaPlugin extends GenericPlugin {
+class BitecaPlugin {
 
     public $context;
     public $request;
@@ -16,13 +14,13 @@ class BitecaPlugin extends GenericPlugin {
     public $pluginName;
     public $_hooks;
 
-    public function __construct($hooks, $tplRoute){
-        $this->request = $this->getRequest();
-        $this->context = $this->request->getContext();
-        $this->guzzle = new Client();
-        $this->_hooks = $hooks;
-        $this->tplRoute = $tplRoute;
+    public function __construct(){
+        
     }
+	
+	public function vamos(){
+		return "vamos";
+	}
 
     public function getDisplayName(){
         return __('plugins.generic.'.$this->getName().'.displayName');
