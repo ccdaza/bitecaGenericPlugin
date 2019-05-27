@@ -124,7 +124,7 @@ class BitecaPlugin extends \GenericPlugin {
                 $context = $request->getContext();
 
                 \AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON,  LOCALE_COMPONENT_PKP_MANAGER);
-                $templateMgr = TemplateManager::getManager($request);
+                $templateMgr = \TemplateManager::getManager($request);
                 $templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
 
                 $form = new BitecaPluginForm($this, $context->getId());

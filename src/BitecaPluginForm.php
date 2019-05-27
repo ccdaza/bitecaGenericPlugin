@@ -1,4 +1,6 @@
 <?php
+namespace BitecaGenericPlugin;
+
 import('lib.pkp.classes.form.Form');
 class BitecaPluginForm extends \Form {
 	
@@ -10,10 +12,10 @@ class BitecaPluginForm extends \Form {
         $this->_journalId = $journalId;
         $this->_plugin = $plugin;
         parent::__construct($this->_plugin->getTemplateResource('adminForm.tpl'));
-        $this->addCheck(new FormValidator($this, 'token', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.token.required'));
-        $this->addCheck(new FormValidator($this, 'client_id', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.clientId.required'));
-        $this->addCheck(new FormValidatorPost($this));
-        $this->addCheck(new FormValidatorCSRF($this));
+        $this->addCheck(new \FormValidator($this, 'token', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.token.required'));
+        $this->addCheck(new \FormValidator($this, 'client_id', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.clientId.required'));
+        $this->addCheck(new \FormValidatorPost($this));
+        $this->addCheck(new \FormValidatorCSRF($this));
     }
     /**
      * Initialize form data.
@@ -36,7 +38,7 @@ class BitecaPluginForm extends \Form {
      * @copydoc Form::fetch()
      */
     function fetch($request, $template = null, $display = false) {
-        $templateMgr = TemplateManager::getManager($request);
+        $templateMgr = \TemplateManager::getManager($request);
         $templateMgr->assign('pluginName', $this->_plugin->getName());
         return parent::fetch($request);
     }
