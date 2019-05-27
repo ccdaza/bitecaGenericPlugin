@@ -105,7 +105,7 @@ class BitecaPlugin extends \GenericPlugin {
         return array_merge($this->getEnabled() ? array(
             new \LinkAction(
                 'settings',
-                new AjaxModal(
+                new \AjaxModal(
                     $router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
                     $this->getDisplayName()
                 ),
