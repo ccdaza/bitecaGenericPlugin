@@ -15,13 +15,15 @@ class BitecaPlugin extends \GenericPlugin {
     public $error;
     public $pluginName;
     public $_hooks;
+    public $data;
 
-    public function __construct($hooks, $tplRoute){
+    public function __construct($hooks, $tplRoute, $data){
         $this->request = $this->getRequest();
         $this->context = $this->request->getContext();
         $this->guzzle = new Client();
         $this->_hooks = $hooks;
         $this->tplRoute = $tplRoute;
+        $this->data = $data;
     }
 
     public function getDisplayName(){
@@ -127,7 +129,7 @@ class BitecaPlugin extends \GenericPlugin {
                 $templateMgr = \TemplateManager::getManager($request);
                 $templateMgr->register_function('plugin_url', array($this, 'smartyPluginUrl'));
 
-                $form = new BitecaPluginForm($this, $context->getId());
+                $form = new BitecaPluginForm($this, $context->getId(), $this->data);
 
                 if ($request->getUserVar('save')) {
                     $form->readInputData();
