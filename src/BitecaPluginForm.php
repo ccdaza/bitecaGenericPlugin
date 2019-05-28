@@ -28,7 +28,7 @@ class BitecaPluginForm extends \Form {
         ];
       
 				foreach($this->data as $key => $data){
-					$this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key)
+					$this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key);
 				}
 			
     }
@@ -84,6 +84,8 @@ class BitecaPluginForm extends \Form {
 		}
 	
 		function clearBool($value){
+			return $value === true;
+		}
 			
 	
 		function clearJson($value){
