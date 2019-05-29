@@ -36,16 +36,18 @@ class BitecaPlugin extends \GenericPlugin {
     }
 
     public function register($category, $path, $mainContextId = null){
-
-        $success = parent::register($category, $path, $mainContextId);
-        if ($success && $this->getEnabled($this->context->getId()) && !is_null($this->context)){
-            $this->getToken();
-            if($this->token != ''){
-                foreach ($this->_hooks as $hook){
-                    \HookRegistry::register($hook["hook"], $hook["method"]);
-                }
-            }
-        }
+				if(!is_null($this->context)){
+					
+					$success = parent::register($category, $path, $mainContextId);
+					if ($success && $this->getEnabled($this->context->getId()) && !is_null($this->context)){
+							$this->getToken();
+							if($this->token != ''){
+									foreach ($this->_hooks as $hook){
+											\HookRegistry::register($hook["hook"], $hook["method"]);
+									}
+							}
+					}
+				}
 
         return $success;
     }
@@ -110,21 +112,23 @@ class BitecaPlugin extends \GenericPlugin {
     }
 
     function getActions($request, $verb){
-        $router = $request->getRouter();
-        import('lib.pkp.classes.linkAction.request.AjaxModal');
-        return array_merge($this->getEnabled() ? array(
-            new \LinkAction(
-                'settings',
-                new \AjaxModal(
-                    $router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
-                    $this->getDisplayName()
-                ),
-                __('manager.plugins.settings'),
-                null
-            ),
-        ) : array(),
-            parent::getActions($request, $verb)
-        );
+				if(!is_null($this->context)){
+					$router = $request->getRouter();
+					import('lib.pkp.classes.linkAction.request.AjaxModal');
+					return array_merge($this->getEnabled() ? array(
+							new \LinkAction(
+									'settings',
+									new \AjaxModal(
+											$router->url($request, null, null, 'manage', null, array('verb' => 'settings', 'plugin' => $this->getName(), 'category' => 'generic')),
+											$this->getDisplayName()
+									),
+									__('manager.plugins.settings'),
+									null
+							),
+					) : array(),
+							parent::getActions($request, $verb)
+					);
+				}
     }
 
     function manage($args, $request) {
