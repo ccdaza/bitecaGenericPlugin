@@ -10,6 +10,7 @@ class BitecaPlugin extends \GenericPlugin {
     public $context;
     public $request;
     public $tpl;
+    public $tplRoute;
     public $guzzle;
     public $token;
     public $error;
@@ -35,8 +36,9 @@ class BitecaPlugin extends \GenericPlugin {
     }
 
     public function register($category, $path, $mainContextId = null){
+
         $success = parent::register($category, $path, $mainContextId);
-        if ($success && $this->getEnabled($mainContextId)){
+        if ($success && $this->getEnabled($this->context->getId()) && !is_null($this->context)){
             $this->getToken();
             if($this->token != ''){
                 foreach ($this->_hooks as $hook){
@@ -49,26 +51,35 @@ class BitecaPlugin extends \GenericPlugin {
     }
 
     public function getToken(){
+
         $clientID = $this->getSetting($this->context->getId(), 'client_id');
         $token = $this->getSetting($this->context->getId(), 'token');
 
         if($clientID != '' && $token != ''){
-            try{
-                $response = $this->guzzle->post('http://www.apibiteca.cloudbiteca.com/oauth/token', [
-                    'form_params' => [
-                        'grant_type' => 'client_credentials',
-                        'client_id' => $clientID,
-                        'client_secret' => $token,
-                        'scope' => '',
-                    ],
-                ]);
-                $this->token = json_decode((string) $response->getBody(), true)["access_token"];
+            if(isset($_SESSION[$this->getName()]["token"]) && $_SESSION[$this->getName()]["client_id"] == $clientID && $_SESSION[$this->getName()]["hash"] == $token){
+                $this->token =  $_SESSION[$this->getName()]["token"];
                 $this->getTpl();
-            }catch(Exception $e){
-                print("<pre style='display: none'>");
-                print_r($e);
-                print("</pre>");
-                $this->error = "No fue posible cargar la información, intentelo mas tarde (1)";
+                return true;
+            }else{
+
+                $_SESSION[$this->getName()]["client_id"] = $clientID;
+                $_SESSION[$this->getName()]["hash"] = $token;
+                try{
+                    $response = $this->guzzle->post('http://www.apibiteca.cloudbiteca.com/oauth/token', [
+                        'form_params' => [
+                            'grant_type' => 'client_credentials',
+                            'client_id' => $clientID,
+                            'client_secret' => $token,
+                            'scope' => '',
+                        ],
+                    ]);
+                    $this->token = json_decode((string) $response->getBody(), true)["access_token"];
+                    $_SESSION[$this->getName()]["token"] = $this->token;
+                    $this->getTpl();
+                }catch(\Exception $e){
+                    unset($_SESSION[$this->getName()]["token"]);
+                    $this->error = "No fue posible cargar la información, intentelo mas tarde (1)";
+                }
             }
         }
 
@@ -85,10 +96,7 @@ class BitecaPlugin extends \GenericPlugin {
             ]);
 
             $this->tpl = json_decode((string) $response->getBody(), true)["html"];
-        }catch(Exception $e){
-            print("<pre style='display: none'>");
-            print_r($e);
-            print("</pre>");
+        }catch(\Exception $e){
             $this->error = "No fue posible cargar la información, intentelo mas tarde (2)";
         }
     }

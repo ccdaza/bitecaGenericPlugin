@@ -8,10 +8,10 @@ class BitecaPluginForm extends \Form {
     public $_plugin;
     public $data;
 	
-    function __construct($plugin, $journalId, $data) {
+    function __construct($plugin, $journalId) {
         $this->_journalId = $journalId;
         $this->_plugin = $plugin;
-        $this->data = $data;
+        $this->data = $this->_plugin->data;
         parent::__construct($this->_plugin->getTemplateResource('adminForm.tpl'));
         $this->addCheck(new \FormValidator($this, 'token', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.token.required'));
         $this->addCheck(new \FormValidator($this, 'client_id', 'required', 'plugins.generic.'.$this->_plugin->getName().'.manager.clientId.required'));
@@ -27,9 +27,9 @@ class BitecaPluginForm extends \Form {
             'client_id' => $this->_plugin->getSetting($this->_journalId, 'client_id')
         ];
       
-				foreach($this->data as $key => $data){
-					$this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key);
-				}
+        foreach($this->data as $key => $data){
+            $this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key);
+        }
 			
     }
     /**
@@ -39,7 +39,7 @@ class BitecaPluginForm extends \Form {
 			$read = ['token', 'client_id'];
       
 			foreach($this->data as $key => $data){
-					$this->_data = $key;
+					$read[] = $key;
 				}
 			
 			$this->readUserVars($read);
@@ -69,8 +69,8 @@ class BitecaPluginForm extends \Form {
 					}else{
 						$value = $this->getData($key);
 					}
-					
-					$this->updateSetting($key, $value, $data["type"]);
+
+					$this->_updateSetting($key, $this->getData($key), $data["type"]);
 					
 				}
     }
@@ -84,7 +84,7 @@ class BitecaPluginForm extends \Form {
 		}
 	
 		function clearBool($value){
-			return $value === true;
+			return $value == "on";
 		}
 			
 	
@@ -92,7 +92,7 @@ class BitecaPluginForm extends \Form {
 			return json_encode($value);
 		}
 	
-		function updateSetting($key, $value, $type){
+		function _updateSetting($key, $value, $type){
 			$this->_plugin->updateSetting($this->_journalId, $key, $value, $type);
 		}
 }
