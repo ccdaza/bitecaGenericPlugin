@@ -67,7 +67,7 @@ class BitecaPlugin extends \GenericPlugin {
                 $_SESSION[$this->getName()]["client_id"] = $clientID;
                 $_SESSION[$this->getName()]["hash"] = $token;
                 try{
-                    $response = $this->guzzle->post('http://www.apibiteca.cloudbiteca.com/oauth/token', [
+                    $response = $this->guzzle->post('http://apibiteca.cloudbiteca.com/oauth/token', [
                         'form_params' => [
                             'grant_type' => 'client_credentials',
                             'client_id' => $clientID,
@@ -90,7 +90,7 @@ class BitecaPlugin extends \GenericPlugin {
     public function getTpl(){
 
         try{
-            $response = $this->guzzle->get('http://www.apibiteca.cloudbiteca.com/api/'.$this->tplRoute, [
+            $response = $this->guzzle->get('http://apibiteca.cloudbiteca.com/api/'.$this->tplRoute, [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$this->token,
