@@ -28,7 +28,11 @@ class BitecaPluginForm extends \Form {
         ];
       
         foreach($this->data as $key => $data){
-            $this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key);
+            if(!isset($data[$key]["value"])){
+                $this->_data[$key] = $this->_plugin->getSetting($this->_journalId, $key);
+            }else{
+                $this->_data[$key] = $data->value;
+            }
         }
 			
     }
